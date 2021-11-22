@@ -9,10 +9,14 @@ var optionDisplay4 = document.querySelector('#button-4')
 var buttons = document.querySelector('.options');
 var timerEl= document.getElementById('countdown');
 var currentQuestion = 0
+var timeLeft = 59;
+var saveButton = document.querySelector('.saveButton')
+var scoreBoard = document.querySelector('.scores')
 
 var userScore = 0
 var userAnswer = ""
 
+ // Display quiz array/object in html elements
 var pullQuestion = function() {
   questionDisplay.textContent = quizQuestions[currentQuestion].question
   optionDisplay1.textContent = quizQuestions[currentQuestion].possible[0]
@@ -34,6 +38,14 @@ var hideFrontPage = function() {
 // show quiz panel
 var showQuiz = function() {
   quizPanel.style.display = "block";
+}
+
+var hideScores = function() {
+  scoreBoard.style.display = "none"
+}
+var showHighScores = function() {
+  hideQuiz();
+  scoreBoard.style.display = "block";
 }
 
 // Quiz Questions
@@ -72,13 +84,50 @@ var quizQuestions = [
     question: "What are the names of Taylor Swift's three pet cats?",
     possible: ["Harry Potter, Ron Weasley, Hermione Granger", "Olivia Benson, Meredith Gray, and Benjamin Button", "Moe, Larry, Curly", "Shania Twain, Buffy Summers, Ruth Bader Ginsburg"],
     correct: "Olivia Benson, Meredith Gray, and Benjamin Button"
+  }, 
+  {
+    question: "Which two Taylor Swift albums are currently rereleased as (Taylor's Version) after a legal battle with her previous record lable Big Red Machine?",
+    possible: ["Lover and Dear John", "reuptation and 1989", "Taylor Swift and Fearless", "Fearless and Red"],
+    correct: "Fearless and Red"
+  },
+  {
+    question: "Each Taylor Swift album is represented by a color. Starting from first to most recent, what color represents each album?",
+    possible: ["black, orange, green, pink, red, gray, yellow, teal, purple", "green, yellow, purple, red, blue, black, pink, gold, orange", "pink, purple, blue, gray, orange, red, cream, silver, indigo", "red, orange, yellow, green, blue, indigo, purple, pink, white"],
+    correct: "green, yellow, purple, red, blue, black, pink, gold, orange"
   }
 ]
 
+var highScores = []
+
+var addHighScore = function() {
+  if(localStorage.getItem("high scores")) {
+    highScores = JSON.parse(localStorage.getItem("high scores"))
+    for (let i = 0; i< highScores.length; i++) {
+      var li = document.createElement("li");
+      li.innerText = `${highScores[i].initials}: ${highScores[i].score}`
+      list.appendChild(li)
+    }
+  }
+
+  saveButton.addEventListener("click", function(){
+    var object = {
+      "initials": initials.value,
+      "score": userScore
+    }
+    highScores.push(object);
+    localStorage.setItem("high scores", JSON.stringify(highScores));
+    var li = document.createElement("li");
+    li.innerText = `${initials.value}: ${userScore}`
+    list.appendChild(li)
+    initials.value = ""
+  });
+};
 
 
 // Load Page with quiz hidden
-window.onload = hideQuiz();
+window.onload = 
+  hideQuiz();
+  hideScores();
 
 
 
@@ -92,47 +141,37 @@ startButton.onclick = function beginQuiz() {
 
   showQuiz();
 
+  pullQuestion();
 
 
-
-  // Display quiz array/object in html elements
-
-pullQuestion();
-
-
-
-    
-    //console.log(userAnswer)
-
-  
-    
-    // console.log(document.querySelector('.option').addEventListener("click", quizQuestions.correct))
-    
-    // if (quizQuestions[i].correct)
   
 
 buttons.addEventListener("click", function(event) {
   var answer = event.target.innerText;
 
-  console.dir(event.target)
 
   console.log(answer)
+
+
   if(answer === quizQuestions[currentQuestion].correct) {
     userScore ++;
     currentQuestion++;
     console.log(userScore);
-    
+  } else if (answer !== quizQuestions[currentQuestion].correct) {
+    timeLeft -= 5;
+    currentQuestion++;
   }
 
   if(currentQuestion < quizQuestions.length) {
     pullQuestion();
   } 
-  else if (currentQuestion === quizQuestions.length) {
-    alert("End of Quiz")
-  }
+  // else if (currentQuestion === quizQuestions.length) {
+  //   clearInterval(timeInterval);
+
+  })
 
   
-})
+// })
 
   }
   // Check question correctness (correct answer gets a point, incorrect deducts from timer)
@@ -147,7 +186,7 @@ buttons.addEventListener("click", function(event) {
 
 // Timer that counts down from 5
 function countdown() {
-  var timeLeft = 59;
+
   timerEl.textContent = '60 seconds remaining'
   // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
   var timeInterval = setInterval(function () {
@@ -161,11 +200,14 @@ function countdown() {
       // When `timeLeft` is equal to 1, rename to 'second' instead of 'seconds'
       timerEl.textContent = timeLeft + ' second remaining';
       timeLeft--;
+    } else if (currentQuestion === quizQuestions.length) {
+        clearInterval(timeInterval);
     } else {
       // Once `timeLeft` gets to 0, set `timerEl` to an empty string
       timerEl.textContent = '';
       // Use `clearInterval()` to stop the timer
       clearInterval(timeInterval);
+     
       // Call the `displayMessage()` function
     }
   }, 1000);

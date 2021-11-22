@@ -1,3 +1,60 @@
 body {
-  background: tomato
+  background: tomato;
+  font-family: arial, helvetica, sans-serif;
+}
+
+.front-page {
+  font-size: 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.front-page button {
+  width: 600px;
+  font-size: 24px;
+  display: block;
+  margin: 20px;
+  padding: 10px;
+  color: white;
+  background: black;
+  border-radius: 10px;
+  border: none;
+  font: inherit;
+  outline: none;
+  justify-self: center;
+}
+
+.quiz-panel {
+  background: white;
+  width: 400px;
+  height: 500px;
+  padding: 30px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.options{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.option {
+  display: block;
+  margin: 20px;
+  font-size: 18px;
+  padding: 10px;
+  color: white;
+  background: black;
+  border-radius: 10px;
+  border: none;
+  font: inherit;
+  outline: none;
+  width: 350px;
 }
