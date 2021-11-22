@@ -26,6 +26,11 @@ body {
   justify-self: center;
 }
 
+.quiz-card{
+  display: flex;
+  justify-content: center;
+}
+
 .quiz-panel {
   background: white;
   width: 400px;
