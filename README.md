@@ -2,7 +2,6 @@
 
 
 ## Description
-
 ```
 
 - I built this project to practice quiz functionality and to test people on Taylor Swift trivia.

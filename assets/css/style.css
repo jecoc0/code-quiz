@@ -3,6 +3,22 @@ body {
   font-family: arial, helvetica, sans-serif;
 }
 
+button {
+  background: black;
+  border-radius: 5px;
+  border: none;
+  font: inherit;
+  outline: none;
+  justify-self: center;
+  color: white;
+}
+
+.topper{
+  display: flex;
+  justify-content: space-between;
+}
+
+
 .front-page {
   font-size: 50px;
   text-align: center;
@@ -24,6 +40,17 @@ body {
   font: inherit;
   outline: none;
   justify-self: center;
+}
+
+.high-scores {
+  margin: 20px;
+  padding: 10px;
+  color: white;
+  background: black;
+  border-radius: 10px;
+  border: none;
+  font: inherit;
+  outline: none;
 }
 
 .quiz-card{
@@ -63,3 +90,21 @@ body {
   outline: none;
   width: 350px;
 }
+
+.scores {
+  display: flex;
+  flex-direction: column;
+  width: 100px;
+  align-items: center;
+}
+
+input {
+  border-radius:5px;
+  border: none;
+  outline: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
